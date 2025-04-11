@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Dışarı Çıkalım mı?</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #fff7e6;
+      overflow: hidden;
+    }
+
+    h1 {
+      margin-bottom: 50px;
+      color: #333;
+      font-size: 32px;
+    }
+
+    .buttons {
+      position: relative;
+      height: 200px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      margin: 0 20px;
+      cursor: pointer;
+      border: none;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .yes {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .no {
+      background-color: #f44336;
+      color: white;
+      position: absolute;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #ffcc00;
+      animation: fall 2s linear forwards;
+    }
+
+    @keyframes fall {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(800px) rotate(720deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="question">Pazar günü dışarı çıkalım mı?</h1>
+  <div class="buttons">
+    <button class="yes" onclick="celebrate()">Evet</button>
+    <button class="no" id="noBtn">Hayır</button>
+  </div>
+
+  <audio id="yay" src="https://www.fesliyanstudios.com/play-mp3/387" preload="auto"></audio>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const question = document.getElementById('question');
+    const body = document.body;
+    let hoverCount = 0;
+    const texts = [
+      "Cidden mi?",
+      "Bak dışarısı çok güzel!",
+      "Bir kahve içeriz 🍵",
+      "Lütfen 😢",
+      "Yapma böyle...",
+      "Tamam tamam şaka 😂"
+    ];
+
+    function moveButton() {
+      hoverCount++;
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight - 200);
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+      if (hoverCount < texts.length) {
+        noBtn.innerText = texts[hoverCount];
+      } else {
+        noBtn.innerText = "Hayır";
+      }
+    }
+
+    noBtn.addEventListener('mouseenter', moveButton);
+
+    function celebrate() {
+      question.innerText = "Harika! Hazırlan, dışarı çıkıyoruz! 😄";
+      document.getElementById('yay').play();
+
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * window.innerWidth + 'px';
+        confetti.style.backgroundColor = getRandomColor();
+        body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2000);
+      }
+    }
+
+    function getRandomColor() {
+      const colors = ['#ffcc00', '#ff66b2', '#66ffcc', '#66b3ff', '#ff6666'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+  </script>
+
+</body>
+</html>
